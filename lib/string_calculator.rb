@@ -5,10 +5,10 @@ class StringCalculator
       delimiter = /,|\n/
       if numbers.start_with?("//")
         delimiter, numbers = numbers.split("\n", 2)
-        delimiter = delimiter[2..]
+        delimiter = Regexp.escape(delimiter[2..])
       end
   
-      nums = numbers.split(delimiter).map(&:to_i)
+      nums = numbers.split(Regexp.new(delimiter)).map(&:to_i)
       negatives = nums.select(&:negative?)
       raise "negative numbers not allowed #{negatives.join(',')}" unless negatives.empty?
   
